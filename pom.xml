@@ -41,6 +41,10 @@
       <module>jeap-spring-boot-config-aws-starter</module>
     </modules>
 
+    <properties>
+        <maven.javadoc.skip>false</maven.javadoc.skip>
+    </properties>
+
     <build>
         <pluginManagement>
             <plugins>
