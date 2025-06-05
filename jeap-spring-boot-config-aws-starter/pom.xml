@@ -12,6 +12,7 @@
 
     <artifactId>jeap-spring-boot-config-aws-starter</artifactId>
     <description>jEAP starter for AWS AppConfig integration</description>
+    <name>${project.groupId}:${project.artifactId}</name>
 
     <dependencies>
         <dependency>
