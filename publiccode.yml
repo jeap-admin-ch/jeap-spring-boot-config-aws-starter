@@ -14,11 +14,14 @@ softwareType: library
 description:
   en:
     localisedName: jeap-spring-boot-config-aws-starter
-    shortDescription: TODO (Max. 150 characters)
+    shortDescription: jEAP Spring Boot Config AWS Starter integrates Spring Boot applications with AWS AppConfig and AWS Secrets Manager.
     longDescription: >
-      TODO (Min. 150 characters)
+      jEAP Spring Boot Config AWS Starter integrates with AWS AppConfig and AWS Secrets Manager.
+      It provides a Spring Boot starter for AWS AppConfig and AWS Secrets Manager, allowing you to easily
+      configure your Spring Boot application to use these services for external configuration management.
     features:
-      - TODO
+      - Spring config environment properties from AWS AppConfig
+      - Spring config using secrets from AWS Secrets Manager
 legal:
   license: Apache-2.0
 maintenance:
