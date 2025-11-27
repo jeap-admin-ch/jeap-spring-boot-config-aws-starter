@@ -5,6 +5,10 @@ import ch.admin.bit.jeap.config.aws.secretsmanager.JeapAwsSecretsManagerProperti
 import org.springframework.boot.context.config.*;
 import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import software.amazon.awssdk.http.SdkHttpClient;
+import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 
 import java.util.Collections;
@@ -14,6 +18,7 @@ import java.util.List;
  * Notice: This class is based on code from the Spring Cloud AWS project, which is licensed under the Apache License 2.0
  * and available at <a href="https://github.com/awspring/spring-cloud-aws">github.com/awspring/spring-cloud-aws</a>.
  */
+@Order(Ordered.HIGHEST_PRECEDENCE + 5) // ensure precedence over original resolver
 public class AwsSecretsManagerConfigDataLocationResolver implements ConfigDataLocationResolver<AwsSecretsManagerConfigDataResource> {
 
     @Override
@@ -31,10 +36,15 @@ public class AwsSecretsManagerConfigDataLocationResolver implements ConfigDataLo
         boolean enabled = isSecretsManagerIntegrationEnabled(props, context);
 
         if (enabled && !context.getBootstrapContext().isRegistered(SecretsManagerClient.class)) {
+            SdkHttpClient httpClient = UrlConnectionHttpClient.builder().
+                    proxyConfiguration(builder ->
+                         builder.useSystemPropertyValues(props.isHttpProxyUseExternallyDefinedSettings())
+                                .useEnvironmentVariablesValues(props.isHttpProxyUseExternallyDefinedSettings())).build();
             SecretsManagerClient secretsManagerClient = SecretsManagerClient.builder()
                     .endpointOverride(props.getEndpointOverrideUri())
                     .region(props.getRegionOverride())
                     .credentialsProvider(props.getCredentialsProvider())
+                    .httpClient(httpClient)
                     .build();
             ConfigContexts.registerAndPromoteBean(context, SecretsManagerClient.class, ctx -> secretsManagerClient);
         }

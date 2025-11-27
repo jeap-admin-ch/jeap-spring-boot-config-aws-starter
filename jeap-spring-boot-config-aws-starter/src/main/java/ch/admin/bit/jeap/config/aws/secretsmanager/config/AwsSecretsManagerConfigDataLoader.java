@@ -6,6 +6,8 @@ import org.springframework.boot.context.config.ConfigDataLoader;
 import org.springframework.boot.context.config.ConfigDataLoaderContext;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.boot.logging.DeferredLogFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.MapPropertySource;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 
@@ -16,6 +18,7 @@ import java.util.Map;
  * Notice: This class is based on code from the Spring Cloud AWS project, which is licensed under the Apache License 2.0
  * and available at <a href="https://github.com/awspring/spring-cloud-aws">github.com/awspring/spring-cloud-aws</a>.
  */
+@Order(Ordered.HIGHEST_PRECEDENCE + 5) // ensure precedence over original loader
 public class AwsSecretsManagerConfigDataLoader implements ConfigDataLoader<AwsSecretsManagerConfigDataResource> {
 
     static final String AWS_SECRETSMANAGER = "aws-secretsmanager:";

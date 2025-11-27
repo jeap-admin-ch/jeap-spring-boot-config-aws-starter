@@ -21,6 +21,7 @@ public class JeapAwsSecretsManagerProperties {
     private boolean enabled = true;
     private String accessKeyId = null;
     private String secretAccessKey = null;
+    private boolean httpProxyUseExternallyDefinedSettings = true;
 
     public URI getEndpointOverrideUri() {
         return this.endpointOverride == null ? null : URI.create(this.endpointOverride);

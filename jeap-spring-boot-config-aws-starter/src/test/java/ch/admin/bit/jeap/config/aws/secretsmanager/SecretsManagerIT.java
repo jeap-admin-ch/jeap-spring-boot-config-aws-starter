@@ -111,7 +111,8 @@ public class SecretsManagerIT {
                 "--jeap.aws.secretsmanager.region=" + localStackContainer.getRegion(),
                 "--jeap.aws.secretsmanager.access-key-id=" + localStackContainer.getAccessKey(),
                 "--jeap.aws.secretsmanager.secret-access-key=" + localStackContainer.getSecretKey(),
-                "--jeap.aws.secretsmanager.endpoint-override=" + localStackContainer.getEndpointOverride(SECRETSMANAGER));
+                "--jeap.aws.secretsmanager.endpoint-override=" + localStackContainer.getEndpointOverride(SECRETSMANAGER),
+                "--jeap.aws.secretsmanager.httpProxyUseExternallyDefinedSettings=false");
     }
 
     private ConfigurableApplicationContext runApplicationWithSecretsManagerDisabled(SpringApplication application, String springConfigImport) {
