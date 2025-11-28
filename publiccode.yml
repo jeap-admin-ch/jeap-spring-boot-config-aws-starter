@@ -1,7 +1,7 @@
 publiccodeYmlVersion: 0.4.0
 name: jeap-spring-boot-config-aws-starter
 applicationSuite: jEAP
-softwareVersion: 17.42.1
+softwareVersion: 17.43.0
 releaseDate: 2025-11-28
 url: "https://github.com/jeap-admin-ch/jeap-spring-boot-config-aws-starter.git"
 landingURL: "https://github.com/jeap-admin-ch/jeap"
