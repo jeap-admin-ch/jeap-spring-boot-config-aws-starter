@@ -3,7 +3,7 @@ package ch.admin.bit.jeap.config.aws.appconfig.config;
 import ch.admin.bit.jeap.config.aws.appconfig.JeapAWSAppConfigProperties;
 import ch.admin.bit.jeap.config.aws.appconfig.JeapSpringApplicationProperties;
 import ch.admin.bit.jeap.config.aws.context.ConfigContexts;
-import org.springframework.boot.BootstrapRegistry;
+import org.springframework.boot.bootstrap.BootstrapRegistry;
 import org.springframework.boot.context.config.ConfigDataLocation;
 import org.springframework.boot.context.config.ConfigDataLocationNotFoundException;
 import org.springframework.boot.context.config.ConfigDataLocationResolverContext;

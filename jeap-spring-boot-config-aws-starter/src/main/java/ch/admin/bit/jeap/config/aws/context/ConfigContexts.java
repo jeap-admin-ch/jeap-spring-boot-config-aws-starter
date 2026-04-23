@@ -1,8 +1,8 @@
 package ch.admin.bit.jeap.config.aws.context;
 
 import lombok.experimental.UtilityClass;
-import org.springframework.boot.BootstrapRegistry.InstanceSupplier;
-import org.springframework.boot.ConfigurableBootstrapContext;
+import org.springframework.boot.bootstrap.BootstrapRegistry.InstanceSupplier;
+import org.springframework.boot.bootstrap.ConfigurableBootstrapContext;
 import org.springframework.boot.context.config.ConfigDataLocationResolverContext;
 
 @UtilityClass
