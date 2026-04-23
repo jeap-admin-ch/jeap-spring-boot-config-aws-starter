@@ -21,7 +21,7 @@ import java.util.Map;
 @Order(Ordered.HIGHEST_PRECEDENCE + 5) // ensure precedence over original loader
 public class AwsSecretsManagerConfigDataLoader implements ConfigDataLoader<AwsSecretsManagerConfigDataResource> {
 
-    static final String AWS_SECRETSMANAGER = "aws-secretsmanager:";
+    static final String AWS_SECRETSMANAGER = "jeap-aws-secretsmanager:";
 
     public AwsSecretsManagerConfigDataLoader(DeferredLogFactory logFactory) {
         BootstrapLoggingHelper.reconfigureLoggers(logFactory,

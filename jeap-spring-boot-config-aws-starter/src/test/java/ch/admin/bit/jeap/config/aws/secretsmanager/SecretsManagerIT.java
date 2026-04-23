@@ -61,7 +61,7 @@ public class SecretsManagerIT {
         application.setWebApplicationType(WebApplicationType.NONE);
 
         try (ConfigurableApplicationContext context = runApplication(application,
-                "aws-secretsmanager:secret1")) {
+                "jeap-aws-secretsmanager:secret1")) {
             assertThat(context.getEnvironment().getProperty("secret1"))
                     .isEqualTo("secret1Value");
         }
@@ -73,7 +73,7 @@ public class SecretsManagerIT {
         application.setWebApplicationType(WebApplicationType.NONE);
 
         try (ConfigurableApplicationContext context = runApplication(application,
-                "aws-secretsmanager:secret1;secret2")) {
+                "jeap-aws-secretsmanager:secret1;secret2")) {
             assertThat(context.getEnvironment().getProperty("secret1"))
                     .isEqualTo("secret1Value");
             assertThat(context.getEnvironment().getProperty("secret2"))
@@ -87,7 +87,7 @@ public class SecretsManagerIT {
         application.setWebApplicationType(WebApplicationType.NONE);
 
         try (ConfigurableApplicationContext context = runApplicationWithSecretsManagerDisabled(application,
-                "aws-secretsmanager:secret1;secret2")) {
+                "jeap-aws-secretsmanager:secret1;secret2")) {
             assertThat(context.getEnvironment().getProperty("secret1"))
                     .isNull();
             assertThat(context.getEnvironment().getProperty("secret2"))
