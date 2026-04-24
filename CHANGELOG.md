@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [18.2.0-alpha-springboot4] - 2026-04-23
+## [18.3.0-alpha-springboot4] - 2026-04-23
 
 ### Changed
 - **Breaking change:** Changed the jEAP Secrets Manager location prefix from `aws-secretsmanager:` to `jeap-aws-secretsmanager:`.
@@ -16,7 +16,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Example: `spring.config.import=aws-secretsmanager:/my/secret` -> `spring.config.import=jeap-aws-secretsmanager:/my/secret`.
 - If your application also uses Spring Cloud AWS Secrets Manager, keep using `aws-secretsmanager:` only for Spring Cloud AWS-managed imports.
 
-## [18.1.0-alpha-springboot4] - 2026-04-23
+## [18.2.0-alpha-springboot4] - 2026-04-23
 
 ### Changed
 
