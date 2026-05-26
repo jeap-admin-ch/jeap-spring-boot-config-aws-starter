@@ -6,29 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 > - Spring Boot 3 maintenance (bug fixes, patches, and regular updates) continues on branch `release/springboot3`.
-> - The Spring Boot 4 upgrade process happens on the `master` branch, with the goal of releasing Spring Boot 4 compatible versions of all jeap components in a single major release.
 
-## [18.6.0-alpha-springboot4] - 2026-05-19
-
-### Changed
-
-- Update parent from 7.0.7-alpha-springboot4 to 7.0.9-alpha-springboot4
-
-## [18.5.0-alpha-springboot4] - 2026-05-06
+## [19.0.0] - 2026-05-27
 
 ### Changed
 
-- Update parent from 7.0.6-alpha-springboot4 to 7.0.7-alpha-springboot4
-
-## [18.4.0-alpha-springboot4] - 2026-04-24
-
-### Changed
-
-- Update parent from 7.0.5-alpha-springboot4 to 7.0.6-alpha-springboot4
-
-## [18.3.0-alpha-springboot4] - 2026-04-23
-
-### Changed
+- Official release with spring boot 4
 - **Breaking change:** Changed the jEAP Secrets Manager location prefix from `aws-secretsmanager:` to `jeap-aws-secretsmanager:`.
 - This avoids conflicts with Spring Cloud AWS Secrets Manager, which owns the `aws-secretsmanager:` prefix.
 
@@ -36,17 +19,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Teams using jEAP Secrets Manager imports must replace `aws-secretsmanager:` with `jeap-aws-secretsmanager:` in `spring.config.import`.
 - Example: `spring.config.import=aws-secretsmanager:/my/secret` -> `spring.config.import=jeap-aws-secretsmanager:/my/secret`.
 - If your application also uses Spring Cloud AWS Secrets Manager, keep using `aws-secretsmanager:` only for Spring Cloud AWS-managed imports.
-
-## [18.2.0-alpha-springboot4] - 2026-04-23
-
-### Changed
-
-- Update parent from 7.0.4-alpha-springboot4 to 7.0.5-alpha-springboot4
-
-## [18.0.0-alpha-springboot4] - 2026-04-23
-
-### Changed
-- Update parent from 6.0.3 to 7.0.0-alpha-springboot4
 
 ## [17.63.0] - 2026-04-16
 
