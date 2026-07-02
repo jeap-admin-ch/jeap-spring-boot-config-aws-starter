@@ -71,13 +71,6 @@ startup; mark a location `optional:` to ignore a missing profile, e.g.
 `optional:jeap-app-config-aws:my-service/config`. Explicit profiles should be reserved for special
 cases — the bare `jeap-app-config-aws:` prefix is the norm.
 
-## Bootstrap context
-
-If the application enables the Spring Cloud bootstrap context, the `spring.config.import` and
-`jeap.config.aws.appconfig.*` properties must be set in a `bootstrap*` configuration file. jEAP
-services using a `jeap-spring-boot-parent` older than version 22 had the bootstrap context enabled by
-default.
-
 ## Related
 
 - [Configuration reference](configuration.md)

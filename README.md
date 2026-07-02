@@ -14,6 +14,41 @@ provides:
 * Optional key prefixing for secrets to avoid property-name clashes
 * AWS SDK clients backed by the JDK URL-connection HTTP client (no Apache/Netty client pulled in)
 
+```mermaid
+flowchart LR
+    APPCONFIG["AWS AppConfig"]
+    SECRETS["AWS Secrets Manager"]
+
+    subgraph MS["Microservice"]
+        direction LR
+
+        subgraph STARTER["jeap-spring-boot-config-aws-starter"]
+            direction TB
+            ACLOADER["AppConfig ConfigData loader<br/>(jeap-app-config-aws:)"]
+            SMLOADER["Secrets Manager ConfigData loader<br/>(jeap-aws-secretsmanager:)"]
+            REFRESH["AppConfig poller &amp; context refresher"]
+        end
+
+        ENV["Spring Environment"]
+    end
+
+    APPCONFIG -->|"1: Configuration profiles at startup"| ACLOADER
+    SECRETS -->|"2: Secrets at startup"| SMLOADER
+    ACLOADER -->|"3: Property sources"| ENV
+    SMLOADER -->|"3: Property sources"| ENV
+    APPCONFIG -->|"4: Configuration changes (polling)"| REFRESH
+    REFRESH -.->|"5: Refresh context"| ENV
+
+%% Colors
+    classDef service fill:#F9CC9D,stroke:#333,stroke-width:2px,color:#000;
+    classDef component fill:#9FC5E8,stroke:#333,stroke-width:2px,color:#000;
+    classDef aws fill:#F9CC9D,stroke:#333,stroke-width:2px,color:#000;
+
+    class MS service;
+    class STARTER,ACLOADER,SMLOADER,REFRESH,ENV component;
+    class APPCONFIG,SECRETS aws;
+```
+
 ## Documentation
 
 Start with [Getting started](docs/getting-started.md), then follow the links below.
