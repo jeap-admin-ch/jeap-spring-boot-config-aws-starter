@@ -20,14 +20,14 @@ service's own profile when the default layout is used. See [AWS AppConfig](appco
 
 ## AWS Secrets Manager (`jeap.aws.secretsmanager.*`)
 
-| Name                                      | Default | Description                                                                                                       |
-|-------------------------------------------|---------|------------------------------------------------------------------------------------------------------------------|
-| `enabled`                                 | `true`  | Load secrets. Set to `false` to skip Secrets Manager loading entirely                                            |
-| `region`                                  | —       | AWS region override. If unset, the default AWS region resolution applies                                        |
-| `endpoint-override`                       | —       | Override the Secrets Manager endpoint URI (e.g. a LocalStack endpoint in tests)                                 |
-| `access-key-id`                           | —       | Static access key id. When set together with `secret-access-key`, static credentials are used                  |
-| `secret-access-key`                       | —       | Static secret access key (see `access-key-id`)                                                                  |
-| `http-proxy-use-externally-defined-settings` | `true` | Let the HTTP client use system-property and environment-variable proxy settings                              |
+| Name                                      | Default | Description                                                                                   |
+|-------------------------------------------|---------|-----------------------------------------------------------------------------------------------|
+| `enabled`                                 | `true`  | Load secrets. Set to `false` to skip Secrets Manager loading entirely                         |
+| `region`                                  | —       | AWS region override. If unset, the default AWS region resolution applies                      |
+| `endpoint-override`                       | —       | Override the Secrets Manager endpoint URI (e.g. a Floci endpoint in tests)                    |
+| `access-key-id`                           | —       | Static access key id. When set together with `secret-access-key`, static credentials are used |
+| `secret-access-key`                       | —       | Static secret access key (see `access-key-id`)                                                |
+| `http-proxy-use-externally-defined-settings` | `true` | Let the HTTP client use system-property and environment-variable proxy settings               |
 
 If `access-key-id` and `secret-access-key` are not both set, the AWS
 `DefaultCredentialsProvider` chain is used. For backwards compatibility the legacy property

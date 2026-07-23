@@ -1,62 +1,60 @@
 package ch.admin.bit.jeap.config.aws.secretsmanager;
 
+import io.floci.testcontainers.FlociContainer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.testcontainers.containers.Container.ExecResult;
-import org.testcontainers.containers.ExecConfig;
-import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
+import software.amazon.awssdk.services.secretsmanager.model.CreateSecretRequest;
 
-import java.io.IOException;
-import java.util.Map;
+import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testcontainers.containers.localstack.LocalStackContainer.Service.SECRETSMANAGER;
 
 @Slf4j
 @Testcontainers
-public class SecretsManagerIT {
+class SecretsManagerIT {
 
     @Container
-    static public LocalStackContainer localStackContainer = createLocalStackContainer();
+    protected static final FlociContainer FLOCI = createFlociContainer();
 
-    @SuppressWarnings("resource")
-    private static LocalStackContainer createLocalStackContainer() {
-        return new LocalStackContainer(DockerImageName.parse("localstack/localstack:4.0.3")
-                .asCompatibleSubstituteFor("localstack/localstack"))
-                .withExposedPorts(4566)
-                .withServices(SECRETSMANAGER)
-                .withEnv("DISABLE_EVENTS", "1") // Disable localstack features that require an internet connection
-                .withEnv("SKIP_INFRA_DOWNLOADS", "1")
-                .withEnv("SKIP_SSL_CERT_DOWNLOAD", "1");
+    private static FlociContainer createFlociContainer() {
+        return new FlociContainer(DockerImageName.parse("floci/floci:1.5.31")
+                .asCompatibleSubstituteFor("floci/floci"));
     }
 
     @BeforeAll
-    static void beforeAll() throws IOException, InterruptedException {
+    static void beforeAll() {
         createSecret("secret1");
         createSecret("secret2");
     }
 
-    private static void createSecret(String secretName) throws IOException, InterruptedException {
-
-        String[] cmds = {"awslocal", "secretsmanager", "create-secret", "--name", secretName,
-                "--secret-string", secretName + "Value", "--region", localStackContainer.getRegion()};
-        ExecResult execResult = localStackContainer.execInContainer(ExecConfig.builder()
-                .command(cmds)
-                .envVars(Map.of("LOCALSTACK_HOST", "localhost"))
-                .build());
-        log.info("Create secret {} result: {} stderr: {}", secretName, execResult.getStdout(), execResult.getStderr());
-        assertThat(execResult.getExitCode()).isZero();
+    private static void createSecret(String secretName) {
+        try (SecretsManagerClient client = SecretsManagerClient.builder()
+                .endpointOverride(URI.create(FLOCI.getEndpoint()))
+                .region(Region.of(FLOCI.getRegion()))
+                .credentialsProvider(StaticCredentialsProvider.create(
+                        AwsBasicCredentials.create(FLOCI.getAccessKey(), FLOCI.getSecretKey())))
+                .build()) {
+            client.createSecret(CreateSecretRequest.builder()
+                    .name(secretName)
+                    .secretString(secretName + "Value")
+                    .build());
+            log.info("Created secret: {}", secretName);
+        }
     }
 
     @Test
-    public void testSecretManagerIntegration_singleSecret() {
+    void testSecretManagerIntegration_singleSecret() {
         SpringApplication application = new SpringApplication(Application.class);
         application.setWebApplicationType(WebApplicationType.NONE);
 
@@ -68,7 +66,7 @@ public class SecretsManagerIT {
     }
 
     @Test
-    public void testSecretManagerIntegration_twoSecrets() {
+    void testSecretManagerIntegration_twoSecrets() {
         SpringApplication application = new SpringApplication(Application.class);
         application.setWebApplicationType(WebApplicationType.NONE);
 
@@ -82,7 +80,7 @@ public class SecretsManagerIT {
     }
 
     @Test
-    public void testSecretManagerIntegration_disabled() {
+    void testSecretManagerIntegration_disabled() {
         SpringApplication application = new SpringApplication(Application.class);
         application.setWebApplicationType(WebApplicationType.NONE);
 
@@ -96,7 +94,7 @@ public class SecretsManagerIT {
     }
 
     @Test
-    public void testSecretManagerIntegration_noImportedSecrets() {
+    void testSecretManagerIntegration_noImportedSecrets() {
         SpringApplication application = new SpringApplication(Application.class);
         application.setWebApplicationType(WebApplicationType.NONE);
 
@@ -108,10 +106,10 @@ public class SecretsManagerIT {
 
     private ConfigurableApplicationContext runApplication(SpringApplication application, String springConfigImport) {
         return application.run("--spring.config.import=" + springConfigImport,
-                "--jeap.aws.secretsmanager.region=" + localStackContainer.getRegion(),
-                "--jeap.aws.secretsmanager.access-key-id=" + localStackContainer.getAccessKey(),
-                "--jeap.aws.secretsmanager.secret-access-key=" + localStackContainer.getSecretKey(),
-                "--jeap.aws.secretsmanager.endpoint-override=" + localStackContainer.getEndpointOverride(SECRETSMANAGER),
+                "--jeap.aws.secretsmanager.region=" + FLOCI.getRegion(),
+                "--jeap.aws.secretsmanager.access-key-id=" + FLOCI.getAccessKey(),
+                "--jeap.aws.secretsmanager.secret-access-key=" + FLOCI.getSecretKey(),
+                "--jeap.aws.secretsmanager.endpoint-override=" + FLOCI.getEndpoint(),
                 "--jeap.aws.secretsmanager.httpProxyUseExternallyDefinedSettings=false");
     }
 

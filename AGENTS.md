@@ -51,7 +51,7 @@ handling; jEAP intentionally uses the distinct `jeap-aws-secretsmanager:` prefix
 
 - Parent: `ch.admin.bit.jeap:jeap-internal-spring-boot-parent` (Spring Boot 4 aligned).
 - Integration tests run a real `SpringApplication`. `AppConfigDataLoaderIT` mocks the AWS
-  `AppConfigDataClient` via a `BootstrapRegistryInitializer`; `SecretsManagerIT` starts a LocalStack
+  `AppConfigDataClient` via a `BootstrapRegistryInitializer`; `SecretsManagerIT` starts a Floci
   Testcontainer. Loading happens at bootstrap time, so loggers are reconfigured through
   `BootstrapLoggingHelper`.
 - Spring Boot 3 maintenance happens on the `release/springboot3` branch; `master` targets Spring Boot 4.

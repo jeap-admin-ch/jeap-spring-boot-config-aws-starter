@@ -138,6 +138,7 @@ LGPL-2.1-or-later
 MIT License
 -------------------------------
 
+ * Testcontainers Floci - [io.floci:testcontainers-floci](https://github.com/floci-io/testcontainers-floci/testcontainers-floci)
  * mockito-core - [org.mockito:mockito-core](https://github.com/mockito/mockito)
  * mockito-junit-jupiter - [org.mockito:mockito-junit-jupiter](https://github.com/mockito/mockito)
  * Project Lombok - [org.projectlombok:lombok](https://projectlombok.org)
@@ -147,4 +148,3 @@ MIT License
  * SLF4J API Module - [org.slf4j:slf4j-api](http://www.slf4j.org)
  * Testcontainers Core - [org.testcontainers:testcontainers](https://java.testcontainers.org)
  * Testcontainers :: JUnit Jupiter Extension - [org.testcontainers:testcontainers-junit-jupiter](https://java.testcontainers.org)
- * Testcontainers :: Localstack - [org.testcontainers:testcontainers-localstack](https://java.testcontainers.org)

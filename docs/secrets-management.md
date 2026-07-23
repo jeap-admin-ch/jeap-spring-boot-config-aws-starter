@@ -71,7 +71,7 @@ The `SecretsManagerClient` is built with the JDK URL-connection HTTP client. Reg
 credentials come from `jeap.aws.secretsmanager.*`; by default the
 `DefaultCredentialsProvider` chain and the AWS region resolution are used. Static
 `access-key-id`/`secret-access-key` and an `endpoint-override` exist mainly for tests against
-LocalStack. Set `jeap.aws.secretsmanager.enabled=false` to skip Secrets Manager loading; the legacy
+Floci. Set `jeap.aws.secretsmanager.enabled=false` to skip Secrets Manager loading; the legacy
 `spring.cloud.aws.secretsmanager.enabled=false` is also honoured for backwards compatibility. See the
 [Configuration reference](configuration.md) for the full list.
 
