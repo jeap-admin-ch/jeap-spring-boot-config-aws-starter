@@ -43,20 +43,8 @@
     </modules>
 
     <properties>
-        <testcontainers-floci.version>2.13.0</testcontainers-floci.version>
         <maven.javadoc.skip>false</maven.javadoc.skip>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.floci</groupId>
-                <artifactId>testcontainers-floci</artifactId>
-                <version>${testcontainers-floci.version}</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <pluginManagement>
