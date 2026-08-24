@@ -7,7 +7,7 @@
     <parent>
         <groupId>ch.admin.bit.jeap</groupId>
         <artifactId>jeap-spring-boot-config-aws-starter-parent</artifactId>
-        <version>19.29.0-SNAPSHOT</version>
+        <version>19.30.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>jeap-spring-boot-config-aws-starter</artifactId>
@@ -36,7 +36,7 @@
                     <groupId>org.apache.httpcomponents</groupId>
                     <artifactId>httpclient</artifactId>
                 </exclusion>
-                <!-- The jackson-databind version managed by spring is added explicitly -->
+                <!-- Jackson 2 is used internally by the AWS SDK; the starter uses Jackson 3 explicitly -->
                 <exclusion>
                     <groupId>com.fasterxml.jackson.core</groupId>
                     <artifactId>jackson-databind</artifactId>
@@ -78,7 +78,7 @@
             <artifactId>url-connection-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
         <dependency>
