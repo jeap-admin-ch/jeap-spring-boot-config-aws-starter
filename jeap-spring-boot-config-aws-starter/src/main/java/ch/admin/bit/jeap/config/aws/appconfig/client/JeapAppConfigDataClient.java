@@ -1,7 +1,8 @@
 package ch.admin.bit.jeap.config.aws.appconfig.client;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
@@ -164,7 +165,7 @@ public class JeapAppConfigDataClient {
 
     static class AppConfigParsingException extends RuntimeException {
 
-        public AppConfigParsingException(String message, IOException cause) {
+        public AppConfigParsingException(String message, Exception cause) {
             super(message, cause);
         }
 
@@ -177,7 +178,7 @@ public class JeapAppConfigDataClient {
             Properties props = new Properties();
             props.putAll(map);
             return props;
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new AppConfigParsingException("Error during parsing of json content", e);
         }
     }
