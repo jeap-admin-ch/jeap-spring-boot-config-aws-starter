@@ -26,7 +26,7 @@
                 <!-- URL connection client (JDK default, no dependencies) is added as dependency -->
                 <exclusion>
                     <groupId>software.amazon.awssdk</groupId>
-                    <artifactId>apache-client</artifactId>
+                    <artifactId>apache5-client</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>software.amazon.awssdk</groupId>
@@ -50,7 +50,7 @@
                 <!-- URL connection client (JDK default, no dependencies) is added as dependency -->
                 <exclusion>
                     <groupId>software.amazon.awssdk</groupId>
-                    <artifactId>apache-client</artifactId>
+                    <artifactId>apache5-client</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>software.amazon.awssdk</groupId>
@@ -65,7 +65,7 @@
                 <!-- URL connection client (JDK default, no dependencies) is added as dependency -->
                 <exclusion>
                     <groupId>software.amazon.awssdk</groupId>
-                    <artifactId>apache-client</artifactId>
+                    <artifactId>apache5-client</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>software.amazon.awssdk</groupId>

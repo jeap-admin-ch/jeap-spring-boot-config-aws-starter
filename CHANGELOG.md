@@ -11,6 +11,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Replace the starter-owned Jackson 2 dependency and APIs with Jackson 3
 
+### Fixed
+
+- Exclude the AWS SDK Apache 5 HTTP client
+
 ## [19.29.0] - 2026-08-22
 
 ### Changed
