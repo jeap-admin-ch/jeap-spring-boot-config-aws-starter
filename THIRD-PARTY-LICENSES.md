@@ -53,7 +53,7 @@ Apache License Version 2.0
  * Spring Cloud Context - [org.springframework.cloud:spring-cloud-context](https://projects.spring.io/spring-cloud/spring-cloud-context/)
  * spring-security-crypto - [org.springframework.security:spring-security-crypto](https://spring.io/projects/spring-security)
  * org.xmlunit:xmlunit-core - [org.xmlunit:xmlunit-core](https://www.xmlunit.org/)
- * SnakeYAML - [org.yaml:snakeyaml](https://bitbucket.org/snakeyaml/snakeyaml)
+ * SnakeYAML - [org.yaml:snakeyaml](https://codeberg.org/snakeyaml/snakeyaml)
  * AWS Java SDK :: Annotations - [software.amazon.awssdk:annotations](https://aws.amazon.com/sdkforjava/core/annotations)
  * AWS Java SDK :: Services :: AppConfig - [software.amazon.awssdk:appconfig](https://aws.amazon.com/sdkforjava)
  * AWS Java SDK :: Services :: App Config Data - [software.amazon.awssdk:appconfigdata](https://aws.amazon.com/sdkforjava)
