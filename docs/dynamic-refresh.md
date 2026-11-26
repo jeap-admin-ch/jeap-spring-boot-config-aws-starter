@@ -27,6 +27,12 @@ flowchart LR
 `JeapAppConfigDataChangedListener` on every `AppConfigPropertySource` backed by a
 `JeapAppConfigDataClient`. When a polled profile changes it calls `ContextRefresher.refresh()`.
 
+The refresher registers itself only once the application has started (`ApplicationStartedEvent`),
+because Spring Cloud cannot refresh a context whose initial refresh is still running. A change that
+is polled during startup is kept as pending and refreshed as soon as the application has started.
+If a refresh fails, the change stays pending and the refresh is retried with the next poll, even
+though AppConfig reports the configuration as unchanged by then.
+
 ## What gets refreshed
 
 A refresh re-binds, without restarting the application:

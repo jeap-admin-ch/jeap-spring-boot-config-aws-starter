@@ -43,8 +43,10 @@ public class JeapAppConfigDataClient {
     private Properties properties;
     private Integer currentPollIntervalSeconds;
     private ZonedDateTime nextPollDateTime = ZonedDateTime.now();
-    private JeapAppConfigDataChangedListener changedListener;
     private boolean optionalFailureLoggedOnce = false;
+    private final Object changeNotificationLock = new Object();
+    private JeapAppConfigDataChangedListener changedListener;
+    private boolean changeNotificationPending = false;
 
 
     // Non-polling jeap app config client
@@ -74,8 +76,15 @@ public class JeapAppConfigDataClient {
         return properties;
     }
 
+    /**
+     * Sets the listener to notify about configuration changes. If a change has been loaded but not yet successfully
+     * notified (no listener was set yet, or the last notification failed), the new listener is notified right away.
+     */
     public void setConfigDataChangedListener(JeapAppConfigDataChangedListener listener) {
-        this.changedListener = listener;
+        synchronized (changeNotificationLock) {
+            this.changedListener = listener;
+            notifyListenerIfChangePending();
+        }
     }
 
     @SuppressWarnings("java:S106")
@@ -108,12 +117,33 @@ public class JeapAppConfigDataClient {
                 scheduleNextPoll(latestConfigurationResponse);
             }
 
-            if (loadPropertiesIfChanged(latestConfigurationResponse)) {
-                Optional.ofNullable(changedListener).ifPresent(listener -> listener.appConfigDataChanged(profileId));
+            synchronized (changeNotificationLock) {
+                if (loadPropertiesIfChanged(latestConfigurationResponse)) {
+                    changeNotificationPending = true;
+                }
+                notifyListenerIfChangePending();
             }
         } else {
             log.debug("Request to retrieve the current config of " + appConfigInfo() +
                       " happened before the next scheduled poll at " + nextPollDateTimeString() + " -> request ignored.");
+        }
+    }
+
+    /**
+     * The in-memory properties are already updated and AppConfig will not deliver the same configuration again once
+     * the session token has advanced. A change must therefore stay pending until a listener has processed it
+     * successfully, otherwise the application would keep the old configuration until the next change is deployed.
+     */
+    private void notifyListenerIfChangePending() {
+        if (!changeNotificationPending || changedListener == null) {
+            return;
+        }
+        try {
+            changedListener.appConfigDataChanged(profileId);
+            changeNotificationPending = false;
+        } catch (RuntimeException e) {
+            log.error("Notifying the listener about a configuration change of app config " + appConfigInfo() +
+                      " failed, retrying with the next poll.", e);
         }
     }
 

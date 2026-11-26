@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [19.73.1] - 2026-11-26
+
+### Fixed
+
+- AppConfig changes polled while the application is still starting no longer fail the context refresh with a
+  `NullPointerException`; the refresh now runs once the application has started.
+- A failed context refresh after an AppConfig change is retried with the next poll instead of keeping the old
+  configuration until the next change.
+
 ## [19.73.0] - 2026-11-25
 
 ### Changed

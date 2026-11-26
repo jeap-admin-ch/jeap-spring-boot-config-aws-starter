@@ -53,6 +53,7 @@ class AppConfigDataLoaderIT {
     void init() {
         // Start each test with fresh JeapAppConfigDataClient instances in order to isolate the tests.
         JeapAppConfigDataClientFactory.evictAllCachedClients();
+        SlowStartupLifecycle.onStart = () -> {};
     }
 
     @Test
@@ -307,6 +308,31 @@ class AppConfigDataLoaderIT {
             assertThat(environment.getProperty(ATTRIBUTE_STANDARD_SCOPE_KEY)).isEqualTo(newStandardScopeValue);
             assertThat(dummyService.getStandardScopedBeanProperty()).isEqualTo(ATTRIBUTE_STANDARD_SCOPE_VALUE);
             assertThat(environment.getProperty(ATTRIBUTE_KEY)).isEqualTo(ATTRIBUTE_VALUE_APP);
+        }
+    }
+
+    @Test
+    void testRefreshSpringContextAfterAppConfigDataChangedDuringStartup() {
+        final int appProfilePollIntervalSeconds = 1;
+        SpringApplication application = new SpringApplication(Application.class);
+        AwsConfigurerClientConfigurationMock appConfigMock =
+                new AwsConfigurerClientConfigurationMock(1, List.of(appProfilePollIntervalSeconds));
+        application.addBootstrapRegistryInitializer(appConfigMock);
+        application.setAdditionalProfiles(IMPORT_CONFIG_PROFILE);
+
+        // Deploy a configuration change while the application context is still refreshing, and keep the context
+        // refreshing long enough for the change to be polled before startup has completed.
+        final String newRefreshScopeValue = "refreshscope-changed-during-startup";
+        SlowStartupLifecycle.onStart = () -> appConfigMock.changeAppValue(ATTRIBUTE_REFRESH_SCOPE_KEY, newRefreshScopeValue);
+
+        try (ConfigurableApplicationContext context = runApplication(application, "--slowstartupmillis=2500")) {
+            Environment environment = context.getEnvironment();
+            DummyService dummyService = context.getBean(DummyService.class);
+
+            // The change polled during startup must not be lost, even though no further change is deployed
+            assertAppProfilePolling(1, appProfilePollIntervalSeconds, appConfigMock);
+            assertThat(environment.getProperty(ATTRIBUTE_REFRESH_SCOPE_KEY)).isEqualTo(newRefreshScopeValue);
+            assertThat(dummyService.getRefreshScopedBeanProperty()).isEqualTo(newRefreshScopeValue);
         }
     }
 

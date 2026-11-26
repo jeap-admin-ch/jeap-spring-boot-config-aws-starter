@@ -28,6 +28,11 @@ class Application {
     }
 
     @Bean
+    SlowStartupLifecycle slowStartupLifecycle() {
+        return new SlowStartupLifecycle();
+    }
+
+    @Bean
     KeepContextAliveRunner keepContextAlive() {
         return new KeepContextAliveRunner();
     }
